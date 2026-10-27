@@ -145,6 +145,76 @@ figcaption span { display: block; opacity: .8; }
 .punta figcaption { color: rgba(244, 243, 240, .55); }
 .punta-cierre { margin-top: var(--f6); color: rgba(244, 243, 240, .86); }
 
+/* Galería de Punta Cana: una tira por looks que se desplaza (dedo, flechas, teclado) y se abre en grande */
+.galeria { margin-top: var(--f7); }
+.gal-cabeza { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--f3) var(--f5); margin-bottom: var(--f4); }
+.gal-titulo { margin: 0; font: 400 clamp(30px, 3.6vw, 55px) / 1.05 var(--serif); letter-spacing: -.01em; }
+.gal-capitulos { display: flex; flex-wrap: wrap; gap: var(--f1) var(--f2); }
+.gal-chip { padding: 9px 14px; border: 1px solid rgba(244, 243, 240, .22); border-radius: 999px; font: 500 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; text-decoration: none; color: rgba(244, 243, 240, .66); transition: color .25s, border-color .25s, background .25s; }
+.gal-chip:hover { color: var(--papel); border-color: rgba(244, 243, 240, .6); }
+.gal-chip[aria-current="true"] { background: var(--ceibo); border-color: var(--ceibo); color: #fff; }
+.gal-pista { position: relative; display: flex; align-items: flex-start; gap: var(--f3); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--margen); padding: var(--f2) var(--margen) var(--f2); margin: 0 calc(var(--margen) * -1); scrollbar-width: none; }
+.gal-pista::-webkit-scrollbar { display: none; }
+.gal-pista:focus-visible { outline-offset: -4px; }
+.gal-foto { flex: 0 0 auto; margin: 0; scroll-snap-align: start; }
+.gal-abrir { display: block; height: min(70vh, 760px); padding: 0; border: 0; background: #1a1a1c; overflow: hidden; cursor: zoom-in; }
+.gal-abrir picture { height: 100%; }
+.gal-abrir img { width: auto; height: 100%; object-fit: contain; transition: transform .9s var(--curva); }
+.gal-abrir:hover img { transform: scale(1.025); }
+.gal-foto figcaption { width: 0; min-width: 100%; margin-top: var(--f2); color: rgba(244, 243, 240, .62); }
+.gal-foto figcaption span { display: inline; opacity: .8; }
+.gal-foto figcaption span::before { content: " · "; }
+.gal-control { display: none; }
+.js .gal-control { display: flex; align-items: center; gap: var(--f3); margin-top: var(--f3); }
+.gal-ant, .gal-sig, .visor-ant, .visor-sig, .visor-cerrar { display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(244, 243, 240, .3); background: none; color: var(--papel); cursor: pointer; transition: background .25s, border-color .25s; }
+.gal-ant, .gal-sig, .visor-ant, .visor-sig { width: 48px; height: 48px; border-radius: 50%; font: 400 20px/1 var(--sans); }
+.gal-ant:hover, .gal-sig:hover, .visor-ant:hover, .visor-sig:hover, .visor-cerrar:hover { background: rgba(244, 243, 240, .1); border-color: var(--papel); }
+.gal-ant:disabled, .gal-sig:disabled { opacity: .3; cursor: default; background: none; }
+.gal-cuenta { font: 400 15px/1.4 var(--sans); color: rgba(244, 243, 240, .7); font-variant-numeric: tabular-nums; }
+.gal-num { font: 400 21px/1 var(--serif); color: var(--papel); }
+.gal-nombre { margin-left: var(--f2); color: var(--papel); }
+.gal-bajada { margin-left: var(--f2); }
+/* la foto que pasa por el medio se asienta; las de los bordes quedan atrás (donde el navegador lo admite) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gal-abrir { animation: gal-paso linear both; animation-timeline: view(inline); }
+    @keyframes gal-paso {
+      0% { transform: scale(.88); opacity: .4; }
+      28%, 72% { transform: none; opacity: 1; }
+      100% { transform: scale(.88); opacity: .4; }
+    }
+  }
+}
+
+/* El visor en grande */
+.visor { width: 100vw; height: 100svh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #080809; color: var(--papel); overflow: hidden; }
+.visor::backdrop { background: rgba(0, 0, 0, .8); }
+.visor-marco { position: absolute; inset: var(--f6) var(--f7) var(--f6); display: flex; align-items: center; justify-content: center; touch-action: pan-y; }
+.visor-marco picture { width: 100%; height: 100%; }
+.visor-marco img { width: 100%; height: 100%; object-fit: contain; animation: visor-entra .45s var(--curva); }
+@keyframes visor-entra { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
+.visor-cerrar { position: absolute; top: var(--f3); right: var(--f3); z-index: 2; padding: 10px 16px; font: 500 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.visor-ant, .visor-sig { position: absolute; top: 50%; z-index: 2; transform: translateY(-50%); }
+.visor-ant { left: var(--f3); }
+.visor-sig { right: var(--f3); }
+.visor-pie { position: absolute; left: var(--f7); right: var(--f7); bottom: var(--f3); text-align: center; font: 400 14px/1.4 var(--sans); color: rgba(244, 243, 240, .72); }
+@media (max-width: 899px) {
+  .gal-cabeza { gap: var(--f3); }
+  .gal-capitulos { flex-wrap: nowrap; overflow-x: auto; margin: 0 calc(var(--margen) * -1); padding: 0 var(--margen) var(--f1); scrollbar-width: none; }
+  .gal-capitulos::-webkit-scrollbar { display: none; }
+  .gal-chip { flex: 0 0 auto; }
+  .gal-abrir { height: 56svh; }
+  .gal-pista { gap: var(--f2); }
+  .gal-cuenta { flex: 1; text-align: center; }
+  .gal-bajada { display: block; margin: var(--f1) 0 0; }
+  .visor-marco { inset: var(--f6) var(--f1) calc(var(--f6) + var(--f4)); }
+  .visor-ant, .visor-sig { top: auto; bottom: var(--f3); transform: none; }
+  .visor-pie { left: calc(var(--f3) + 56px); right: calc(var(--f3) + 56px); bottom: var(--f3); min-height: 48px; display: flex; align-items: center; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visor-marco img, .gal-abrir img { animation: none; transition: none; }
+}
+
 /* La sesión */
 .sesion { padding: var(--f7) var(--margen) var(--f6); }
 .ses-paisaje { margin: 0 calc(var(--margen) * -1); aspect-ratio: 1.6; max-height: 100svh; overflow: hidden; }
