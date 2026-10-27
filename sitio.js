@@ -1,4 +1,4 @@
-// Daiana Contrera: cabecera que cambia de fondo, apariciones al bajar y videos que andan sólo a la vista.
+// Daiana Contrera: cabecera que cambia de fondo, botones de copiar, apariciones al bajar y videos que andan sólo a la vista.
 (() => {
   const doc = document.documentElement;
   doc.classList.add('js');
@@ -10,7 +10,7 @@
   const apertura = document.getElementById('inicio');
   const pintarCabecera = () => {
     const y = cab.offsetHeight / 2;
-    const sobreApertura = scrollY < 40 && apertura.getBoundingClientRect().bottom > y;
+    const sobreApertura = !!apertura && scrollY < 40 && apertura.getBoundingClientRect().bottom > y;
     const sobreOscura = oscuras.some(s => { const r = s.getBoundingClientRect(); return r.top <= y && r.bottom >= y; });
     cab.classList.toggle('oscura', !sobreApertura && sobreOscura);
     cab.classList.toggle('solida', !sobreApertura && !sobreOscura);
@@ -28,6 +28,17 @@
   boton.addEventListener('click', () => abrir(!cab.classList.contains('abierta')));
   cab.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => abrir(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape') abrir(false); });
+
+  // Copiar un correo o una biografía; el aviso va en el mismo botón.
+  document.querySelectorAll('[data-copiar]').forEach(b => b.addEventListener('click', async () => {
+    const valor = b.dataset.copiar;
+    const texto = valor.startsWith('#')
+      ? [...document.querySelectorAll(`${valor} p`)].map(p => p.textContent.trim()).join('\n\n')
+      : valor;
+    try { await navigator.clipboard.writeText(texto); b.textContent = 'Copiado'; }
+    catch { b.textContent = 'No se pudo copiar'; }
+    setTimeout(() => { b.textContent = b.dataset.rotulo; }, 2200);
+  }));
 
   // Apariciones.
   const io = new IntersectionObserver(es => es.forEach(e => {
