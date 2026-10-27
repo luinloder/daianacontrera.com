@@ -65,7 +65,6 @@ figcaption span { display: block; opacity: .8; }
   background: var(--papel);
 }
 .ap-texto { display: flex; flex-direction: column; justify-content: flex-end; padding: var(--f7) var(--margen) var(--f5); }
-.ap-lugar { font: 500 13px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gris); margin-bottom: auto; padding-top: var(--f5); }
 .nombre { margin: 0; font: 400 clamp(72px, 12.6vw, 233px) / .84 var(--serif); letter-spacing: -.035em; }
 .nombre .ln { display: block; overflow: hidden; padding-bottom: .06em; }
 .nombre .ln > span { display: block; transform: translateY(105%); animation: subir 1.3s var(--curva) forwards; }
@@ -221,6 +220,7 @@ figcaption span { display: block; opacity: .8; }
 .ses-paisaje picture { display: block; height: 100%; }
 .ses-frase { margin: calc(var(--f4) * -1) 0 var(--f5); max-width: 15em; font: 400 clamp(30px, 3.6vw, 55px) / 1.1 var(--serif); letter-spacing: -.01em; }
 .ses-intro { margin: var(--f5) 0 var(--f6) 38.2%; }
+.ses-intro p + p { margin-top: var(--f3); }
 .ses-mov { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin: 0 calc(var(--margen) * -1); }
 .ses-mov .clip { aspect-ratio: 5 / 8; }
 .ses-mov-pie { margin: var(--f2) 0 var(--f7); font: 400 13px/1.5 var(--sans); color: var(--gris); }
@@ -303,7 +303,6 @@ figcaption span { display: block; opacity: .8; }
   .ap-video { grid-row: 1; grid-column: 1; height: 100svh; position: relative; }
   .ap-video::after { content: ""; position: absolute; inset: 45% 0 0 0; background: linear-gradient(transparent, rgba(0,0,0,.62)); pointer-events: none; }
   .ap-texto { grid-row: 1; grid-column: 1; z-index: 2; color: #fff; padding: var(--f6) var(--margen) var(--f6); pointer-events: none; }
-  .ap-lugar { color: rgba(255,255,255,.8); }
   .ap-video figcaption { display: none; }
   .nombre { font-size: clamp(64px, 21vw, 120px); }
   .quien, .trayectoria, .sesion, .sans, .contacto { padding-block: var(--f6); }
