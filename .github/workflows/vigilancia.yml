@@ -1,0 +1,62 @@
+# Revisa cada hora que daianacontrera.com esté en línea. Si algo falla, el workflow termina en error
+# y GitHub manda un mail a la cuenta dueña del repo.
+# Ojo: en un repo público, GitHub pausa los workflows programados tras 60 días sin commits.
+name: Vigilancia del sitio
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      simular_falla:
+        description: 'Fallar a propósito para probar que llega el aviso'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Falla simulada
+        if: ${{ inputs.simular_falla }}
+        run: |
+          echo "::error::Falla simulada para probar el aviso por mail."
+          exit 1
+
+      - name: La portada responde y es la de Daiana
+        run: |
+          for i in 1 2 3; do
+            code=$(curl -sS -o pagina.html -w '%{http_code}' --max-time 20 https://daianacontrera.com/ || true)
+            if [ "$code" = "200" ] && grep -q 'Daiana Contrera' pagina.html; then
+              echo "OK ($code)"; exit 0
+            fi
+            echo "Intento $i: código ${code:-sin respuesta}"; sleep 30
+          done
+          echo "::error::https://daianacontrera.com/ no responde bien."
+          exit 1
+
+      - name: www y http llevan a https://daianacontrera.com/
+        run: |
+          for u in https://www.daianacontrera.com/ http://daianacontrera.com/; do
+            final=$(curl -sS -o /dev/null -L -w '%{url_effective}' --max-time 20 "$u" || true)
+            if [ "$final" != "https://daianacontrera.com/" ]; then
+              echo "::error::$u termina en «$final»."
+              exit 1
+            fi
+          done
+          echo "OK"
+
+      - name: Al certificado le quedan más de 14 días
+        run: |
+          fin=$(echo | openssl s_client -servername daianacontrera.com -connect daianacontrera.com:443 2>/dev/null \
+                | openssl x509 -noout -enddate | cut -d= -f2)
+          dias=$(( ( $(date -d "$fin" +%s) - $(date +%s) ) / 86400 ))
+          echo "El certificado vence en $dias días ($fin)."
+          if [ "$dias" -le 14 ]; then
+            echo "::error::El certificado vence en $dias días."
+            exit 1
+          fi
