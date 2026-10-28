@@ -222,6 +222,19 @@ figcaption span { display: block; opacity: .8; }
 }
 
 /* La sesión */
+.vestidor { background: var(--arena); padding: var(--f7) var(--margen) var(--f6); }
+.ve-fila { --alto: min(62vh, 540px, 36vw); list-style: none; margin: var(--f6) 0 0; padding: 0; display: grid; grid-auto-flow: column; grid-template-rows: auto auto; justify-content: space-between; column-gap: var(--f3); }
+.ve-fila li { display: grid; grid-row: span 2; grid-template-rows: subgrid; width: max(9.5em, calc(var(--alto) * var(--r))); }
+.ve-traje { display: grid; grid-row: span 2; grid-template-rows: subgrid; margin: 0; transition: opacity .5s var(--curva); }
+.ve-img { align-self: end; display: block; height: var(--alto); width: auto; max-width: none; }
+.ve-traje figcaption { align-self: start; margin-top: var(--f3); color: var(--tinta); }
+.ve-nombre { display: block; font: 400 clamp(20px, 1.6vw, 26px) / 1.15 var(--serif); color: var(--tinta); }
+.ve-dato { display: block; margin-top: 4px; font-size: 13px; line-height: 1.45; color: rgba(18, 18, 18, .74); }
+.ve-creditos { margin-top: var(--f5); color: rgba(18, 18, 18, .74); }
+@media (hover: hover) {
+  .ve-fila:hover .ve-traje { opacity: .42; }
+  .ve-fila .ve-traje:hover { opacity: 1; }
+}
 .sesion { padding: var(--f7) var(--margen) var(--f6); }
 .ses-paisaje { margin: 0 calc(var(--margen) * -1); aspect-ratio: 1.6; max-height: 100svh; overflow: hidden; }
 .ses-paisaje picture { display: block; height: 100%; }
@@ -291,8 +304,6 @@ figcaption span { display: block; opacity: .8; }
 .ig-rot { display: block; font: 500 13px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gris); margin-bottom: var(--f3); }
 .ig-usuario { display: inline-block; font: 400 clamp(40px, 7.6vw, 144px) / .9 var(--serif); letter-spacing: -.03em; background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat; transition: background-size .6s var(--curva); padding-bottom: var(--f1); }
 .ig:hover .ig-usuario { background-size: 100% 2px; }
-.otros { list-style: none; padding: var(--f4) 0 0; margin: 0; border-top: 1px solid var(--linea); display: flex; flex-wrap: wrap; gap: var(--f2) var(--f5); }
-.otros a { font-size: 17px; text-underline-offset: 4px; }
 
 .pie { padding: var(--f4) var(--margen) var(--f5); display: flex; justify-content: space-between; gap: var(--f3); flex-wrap: wrap; font: 400 13px/1.5 var(--sans); color: var(--gris); border-top: 1px solid var(--linea); }
 
@@ -339,6 +350,11 @@ figcaption span { display: block; opacity: .8; }
   .ses-mov::-webkit-scrollbar { display: none; }
   .ses-mov figure { flex: 0 0 72vw; scroll-snap-align: center; }
   .ses-mov-pie { margin-bottom: var(--f6); }
+  .vestidor { padding-block: var(--f6); }
+  .ve-fila { justify-content: start; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--f4); padding-inline: var(--margen); margin: var(--f5) calc(var(--margen) * -1) 0; scrollbar-width: none; }
+  .ve-fila::-webkit-scrollbar { display: none; }
+  .ve-fila { --alto: 440px; grid-auto-columns: max-content; }
+  .ve-fila li { scroll-snap-align: center; min-width: auto; }
   .ses-invierno { grid-template-columns: 1fr 1fr; gap: var(--f2); margin-top: var(--f6); }
   .inv-texto, .ses-invierno figure:first-of-type { grid-column: 1 / -1; }
   .inv-texto { margin-bottom: var(--f3); }
