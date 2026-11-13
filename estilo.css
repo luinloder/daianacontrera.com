@@ -95,6 +95,12 @@ section[id], footer[id] { scroll-margin-top: var(--barra); }
 .fila figure > picture, .fila figure > .clip { aspect-ratio: 2 / 3; height: auto; overflow: hidden; background: var(--arena); }
 .fila figcaption { margin-top: 8px; font-size: 14px; line-height: 1.35; color: var(--gris); }
 
+/* Un capítulo de un solo video: el video vertical a la izquierda y, al pie, el título al lado */
+.nota-solo { display: grid; grid-template-columns: 4fr 9fr; gap: 28px; align-items: end; }
+.solo-video { order: -1; }
+.solo-texto h2 { margin-bottom: 0; }
+.solo-video > .clip { aspect-ratio: 5 / 8; height: auto; }
+
 /* Video: la imagen de espera y, encima, el video cuando arranca */
 .clip { position: relative; height: 100%; overflow: hidden; background: #2a2622; }
 .clip picture, .clip img { height: 100%; }
@@ -195,6 +201,9 @@ section[id], footer[id] { scroll-margin-top: var(--barra); }
   /* en el celular el rótulo de la fecha completa la fila de la última foto chica, así no queda un hueco */
   .aureo .e { aspect-ratio: 3 / 4; padding: 12px; }
   .fila, .fila.tres { grid-template-columns: 1fr 1fr; }
+  .nota-solo { grid-template-columns: 1fr; gap: 0; }
+  .solo-video { order: 0; }
+  .solo-texto h2 { margin-bottom: 26px; }
   .fila.tres figure:first-child { grid-column: 1 / 3; }
   .fila.tres figure:first-child > .clip { aspect-ratio: 4 / 5; }
   .cita { grid-template-columns: 1fr; padding: 50px var(--m) 20px; }
