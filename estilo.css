@@ -100,6 +100,12 @@ section[id], footer[id] { scroll-margin-top: var(--barra); }
 .solo-video { order: -1; }
 .solo-texto h2 { margin-bottom: 0; }
 .solo-video > .clip { aspect-ratio: 5 / 8; height: auto; }
+/* Un clip solo dentro de una sección: ocupa un tercio, como en las filas, y el texto va al lado */
+.fila-solo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 6px; align-items: end; }
+.fila-solo figure > .clip { aspect-ratio: 2 / 3; height: auto; }
+.fila-solo video { object-position: var(--pos, 50% 18%); }
+.fila-solo-texto { grid-column: 2 / 4; max-width: 30ch; padding: 0 0 4px 22px; font-size: 18px; line-height: 1.38; }
+.fila-solo-texto .d { display: block; margin-bottom: 16px; font-size: clamp(44px, 6.4vw, 104px); }
 
 /* Video: la imagen de espera y, encima, el video cuando arranca */
 .clip { position: relative; height: 100%; overflow: hidden; background: #2a2622; }
@@ -206,6 +212,10 @@ section[id], footer[id] { scroll-margin-top: var(--barra); }
   .solo-texto h2 { margin-bottom: 26px; }
   .fila.tres figure:first-child { grid-column: 1 / 3; }
   .fila.tres figure:first-child > .clip { aspect-ratio: 4 / 5; }
+  .fila-solo { grid-template-columns: 1fr; }
+  .fila-solo figure > .clip { aspect-ratio: 4 / 5; }
+  .fila-solo-texto { grid-column: auto; padding: 16px 0 0; }
+  .fila-solo-texto .d { font-size: 13.4vw; }
   .cita { grid-template-columns: 1fr; padding: 50px var(--m) 20px; }
   .cita blockquote { font-size: 10vw; }
   .hoja-grilla { grid-template-columns: repeat(3, 1fr); }
